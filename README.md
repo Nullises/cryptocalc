@@ -1,6 +1,6 @@
 # cryptocalc
 
-React Native App
+React Native App to calculate cryptocurrencies prices
 
 ## Installation
 
