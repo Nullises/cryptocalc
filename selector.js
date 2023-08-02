@@ -1,7 +1,20 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, Platform, TextInput, TouchableOpacity } from 'react-native';
-import { Container, Header, Input, Label, Content, Card, CardItem, Body, Picker, Form, Badge, Button, Item as FormItem } from 'native-base';
-import CryptoIcon from 'react-native-crypto-icons';
+import {
+  Container,
+  Header,
+  Input,
+  Label,
+  Content,
+  Card,
+  CardItem,
+  Body,
+  Picker,
+  Form,
+  Badge,
+  Button,
+  Item as FormItem,
+} from "native-base";
 const Item = Picker.Item;
   
 export default class CardExample extends Component {
@@ -28,13 +41,12 @@ export default class CardExample extends Component {
             function () {
               console.log(this.state.dataSource);
               this.setState({
-                coin_name: this.state.dataSource[0].symbol,
-                symbol: this.state.dataSource[0].symbol,
-                price_usd: `Precio: ${this.state.dataSource[0].lastPrice} $`,
-                price_usd_pure: this.state.dataSource[0].lastPrice,
-                price_btc: `${this.state.dataSource[11].symbol}: ${this.state.dataSource[11].lastPrice}`,
-                price_btc_one: this.state.dataSource[11].lastPrice,
-                icon: this.state.dataSource[0].symbol.toLowerCase(),
+                coin_name: "",
+                symbol: "",
+                price_usd: "",
+                price_usd_pure: 0,
+                price_btc: "",
+                price_btc_one: 0,
               });
             }
           );
@@ -50,7 +62,6 @@ export default class CardExample extends Component {
       price_usd_pure: itemValue.lastPrice,
       price_btc: `${itemValue.symbol}: ${itemValue.lastPrice}`,
       price_btc_one: this.state.dataSource[11].lastPrice,
-      icon: itemValue.symbol.toLowerCase(),
     });
   }
 
@@ -91,7 +102,6 @@ export default class CardExample extends Component {
             </CardItem>
             <CardItem>
               <Body style={styles.cardStyle}>
-                <CryptoIcon name={this.state.icon} style={styles.icon} />
                 <Text style={styles.price_usd}>{this.state.price_usd}</Text>
                 <Text style={styles.price_btc}>{this.state.price_btc}</Text>
               </Body>
@@ -130,44 +140,36 @@ export default class CardExample extends Component {
 const styles = StyleSheet.create({
   cardStyle: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   h1: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
   symbol: {
     flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
   textH1: {
     fontSize: 24,
-    color: 'black',
-    fontWeight: 'bold',
+    color: "black",
+    fontWeight: "bold",
   },
   textH2: {
     fontSize: 22,
-    color: 'gray',
-    fontWeight: 'bold',
+    color: "gray",
+    fontWeight: "bold",
   },
-  price_usd:{
+  price_usd: {
     fontSize: 22,
-    color: 'black',
+    color: "black",
   },
-  price_btc:{
+  price_btc: {
     fontSize: 18,
-    color: 'black',
+    color: "black",
   },
-  icon: {
-    color: 'black',
-  },
-  iconContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
 });
