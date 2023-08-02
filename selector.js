@@ -1,5 +1,13 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, Platform, TextInput, TouchableOpacity } from 'react-native';
+import React, { Component } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Platform,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import {
   Container,
   Header,
@@ -15,69 +23,72 @@ import {
   Button,
   Item as FormItem,
 } from "native-base";
+import CryptoIcon from "react-native-crypto-icons";
 const Item = Picker.Item;
-  
-export default class CardExample extends Component {
 
-  constructor(props){
+export default class CardExample extends Component {
+  constructor(props) {
     super(props);
-  
+
     this.state = {
       isLoading: true,
       dataSource: [],
-      text: "",
     };
   }
 
-  componentDidMount(){
-      return fetch(`https://data.binance.com/api/v3/ticker/24hr`)
-        .then((response) => response.json())
-        .then((responseJson) => {
-          // console.log(responseJson);
-          this.setState(
-            {
-              isLoading: false,
-              dataSource: responseJson,
-            },
-            function () {
-              console.log(this.state.dataSource);
-              this.setState({
-                coin_name: "",
-                symbol: "",
-                price_usd: "",
-                price_usd_pure: 0,
-                price_btc: "",
-                price_btc_one: 0,
-              });
-            }
-          );
-        });
+  componentDidMount() {
+    return fetch(
+      `https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/new`
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        this.setState(
+          {
+            isLoading: false,
+            dataSource: responseJson,
+          },
+          function () {
+            console.log(this.state.dataSource);
+            this.setState({
+              coin_name: this.state.dataSource[0].name,
+              symbol: this.state.dataSource[0].symbol,
+              price_usd: `Precio: ${this.state.dataSource[0].quote.USD.price} $`,
+              price_usd_pure: this.state.dataSource[0].quote.USD.price,
+              price_btc: `${this.state.dataSource[0].symbol}/BTC: ${this.state.dataSource[0].quote.BTC.price} BTC`,
+              price_btc_one: this.state.dataSource[0].quote.USD.price,
+              icon: this.state.dataSource[0].symbol.toLowerCase(),
+            });
+          }
+        );
+      });
   }
 
-  onValueChange(itemValue, itemIndex){
+  onValueChange(itemValue, itemIndex) {
     this.setState({
       selectedValue: itemValue,
-      coin_name: itemValue.symbol,
+      coin_name: itemValue.name,
       symbol: itemValue.symbol,
-      price_usd: `Precio: ${itemValue.lastPrice} $`,
-      price_usd_pure: itemValue.lastPrice,
-      price_btc: `${itemValue.symbol}: ${itemValue.lastPrice}`,
-      price_btc_one: this.state.dataSource[11].lastPrice,
+      price_usd: `Precio: ${itemValue.quote.USD.price} $`,
+      price_usd_pure: itemValue.quote.USD.price,
+      price_btc: `${itemValue.symbol}/BTC: ${itemValue.quote.BTC.price} BTC`,
+      price_btc_one: this.state.dataSource[0].quote.USD.price,
+      icon: itemValue.symbol.toLowerCase(),
     });
   }
 
-  calculateCurrency(){
+  calculateCurrency() {
     let floatInput = parseFloat(this.state.text);
     let floatCurrency = parseFloat(this.state.price_usd_pure);
-    let floatBTC = parseFloat(this.state.price_btc_one)
+    let floatBTC = parseFloat(this.state.price_btc_one);
     let calcUSD = floatInput / floatCurrency;
     let calcBTC = floatInput / floatBTC;
-    console.log('calc', calcUSD);
-    console.log('calc BTC', calcBTC);
+    console.log("calc", calcUSD);
+    console.log("calc BTC", calcBTC);
     this.setState({
       calcUSD: `Total: ${calcUSD.toFixed(8)} ${this.state.symbol}`,
-      calcBTC: `Total en Bitcoins: ${calcBTC.toFixed(8)} BTC`
-    })
+      calcBTC: `Total en Bitcoins: ${calcBTC.toFixed(8)} BTC`,
+    });
   }
 
   render() {
@@ -90,7 +101,7 @@ export default class CardExample extends Component {
               onValueChange={this.onValueChange.bind(this)}
             >
               {this.state.dataSource.map((item, key) => (
-                <Item key={key} label={item.symbol} value={item} />
+                <Item key={key} label={item.name} value={item} />
               ))}
             </Picker>
           </Form>
@@ -103,6 +114,7 @@ export default class CardExample extends Component {
             </CardItem>
             <CardItem>
               <Body style={styles.cardStyle}>
+                <CryptoIcon name={this.state.icon} style={styles.icon} />
                 <Text style={styles.price_usd}>{this.state.price_usd}</Text>
                 <Text style={styles.price_btc}>{this.state.price_btc}</Text>
               </Body>
@@ -172,5 +184,13 @@ const styles = StyleSheet.create({
   price_btc: {
     fontSize: 18,
     color: "black",
+  },
+  icon: {
+    color: "black",
+  },
+  iconContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
