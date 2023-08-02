@@ -53,6 +53,7 @@ export default class CardExample extends Component {
               symbol: this.state.dataSource[0].symbol,
               price: this.state.dataSource[0].lastPrice,
               icon: this.state.dataSource[0].symbol.toLowerCase(),
+              btc_usd: this.state.dataSource[11].lastPrice,
             });
           }
         );
@@ -79,8 +80,10 @@ export default class CardExample extends Component {
     let calcBTC = 0;
     if (this.state.coin_name.includes("USDT")) {
       calcUSD = calcPrice;
+      calcBTC = calcPrice / this.state.btc_usd;
     } else {
       calcBTC = calcPrice;
+      calcUSD = calcPrice * this.state.btc_usd;
     }
     this.setState({
       calcUSD: `Total: ${calcUSD.toFixed(8)} $USD`,
@@ -100,7 +103,7 @@ export default class CardExample extends Component {
               }}
             >
               {this.state.dataSource.map((item, key) => (
-                <Item key={key} label={item.name} value={item} />
+                <Item key={key} label={item.symbol} value={item} />
               ))}
             </Picker>
           </Form>
