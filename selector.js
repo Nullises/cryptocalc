@@ -37,7 +37,7 @@ export default class CardExample extends Component {
   }
 
   componentDidMount() {
-    return fetch("https://data.binance.com/api/v3/ticker/24hr")
+    return fetch(`https://api.coincap.io/v2/assets`)
       .then((response) => response.json())
       .then((responseJson) => {
         // console.log(responseJson);
@@ -49,45 +49,35 @@ export default class CardExample extends Component {
           function () {
             console.log(this.state.dataSource);
             this.setState({
-              coin_name: this.state.dataSource[0].symbol,
+              coin_name: this.state.dataSource[0].name,
               symbol: this.state.dataSource[0].symbol,
-              price: this.state.dataSource[0].lastPrice,
+              price_usd: `Precio: ${this.state.dataSource[0].priceUsd} $`,
+              price_usd_pure: this.state.dataSource[0].priceUsd,
               icon: this.state.dataSource[0].symbol.toLowerCase(),
-              btc_usd: this.state.dataSource[11].lastPrice,
             });
           }
         );
       });
   }
 
-  onChange(itemValue, itemIndex) {
+  onValueChange(itemValue, itemIndex) {
     this.setState({
       selectedValue: itemValue,
-      coin_name: itemValue.symbol,
+      coin_name: itemValue.name,
       symbol: itemValue.symbol,
-      price_usd: `Precio: ${itemValue.lastPrice} ${
-        itemValue.symbol.includes("USDT") ? `$USD` : `BTC`
-      }`,
+      price_usd: `Precio: ${itemValue.price_usd} $`,
+      price_usd_pure: itemValue.price_usd,
       icon: itemValue.symbol.toLowerCase(),
     });
   }
 
   calculateCurrency() {
     let floatInput = parseFloat(this.state.text);
-    let floatPrice = parseFloat(this.state.price);
-    let calcPrice = floatInput / floatPrice;
-    let calcUSD = 0;
-    let calcBTC = 0;
-    if (this.state.coin_name.includes("USDT")) {
-      calcUSD = calcPrice;
-      calcBTC = calcPrice / this.state.btc_usd;
-    } else {
-      calcBTC = calcPrice;
-      calcUSD = calcPrice * this.state.btc_usd;
-    }
+    let floatCurrency = parseFloat(this.state.price_usd_pure);
+    let calcUSD = floatInput / floatCurrency;
+    console.log("calc", calcUSD);
     this.setState({
-      calcUSD: `Total: ${calcUSD.toFixed(8)} $USD`,
-      calcBTC: `Total en Bitcoins: ${calcBTC.toFixed(8)} BTC`,
+      calcUSD: `Total: ${calcUSD.toFixed(8)} ${this.state.symbol}`,
     });
   }
 
@@ -98,12 +88,10 @@ export default class CardExample extends Component {
           <Form>
             <Picker
               selectedValue={this.state.selectedValue}
-              onValueChange={(itemValue, itemIndex) => {
-                this.onChange(itemValue, itemIndex);
-              }}
+              onValueChange={this.onValueChange.bind(this)}
             >
               {this.state.dataSource.map((item, key) => (
-                <Item key={key} label={item.symbol} value={item} />
+                <Item key={key} label={item.name} value={item} />
               ))}
             </Picker>
           </Form>
@@ -118,7 +106,6 @@ export default class CardExample extends Component {
               <Body style={styles.cardStyle}>
                 <CryptoIcon name={this.state.icon} style={styles.icon} />
                 <Text style={styles.price_usd}>{this.state.price_usd}</Text>
-                <Text style={styles.price_btc}>{this.state.price_btc}</Text>
               </Body>
             </CardItem>
           </Card>
@@ -142,7 +129,6 @@ export default class CardExample extends Component {
                   </Button>
                 </Content>
                 <Text style={styles.price_usd}>{this.state.calcUSD}</Text>
-                <Text style={styles.price_btc}>{this.state.calcBTC}</Text>
               </Body>
             </CardItem>
           </Card>
