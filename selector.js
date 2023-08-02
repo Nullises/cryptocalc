@@ -37,8 +37,17 @@ export default class CardExample extends Component {
   }
 
   componentDidMount() {
+
+    
+
+    const headers = {
+      "X-CMC_PRO_API_KEY": "e3b06f2f-2683-4fa0-b69e-89812eaede07",
+    };
     return fetch(
-      `https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/new`
+      `https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/new`,
+      {
+        headers: headers,
+      }
     )
       .then((response) => response.json())
       .then((responseJson) => {
