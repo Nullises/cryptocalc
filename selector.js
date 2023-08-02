@@ -90,7 +90,7 @@ export default class CardExample extends Component {
               selectedValue={this.state.selectedValue}
               onValueChange={this.onValueChange.bind(this)}
             >
-              {this.state.dataSource[0].map((item, key) => (
+              {this.state.dataSource.map((item, key) => (
                 <Item key={key} label={item.name} value={item} />
               ))}
             </Picker>
