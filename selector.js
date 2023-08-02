@@ -76,47 +76,48 @@ export default class CardExample extends Component {
             <Picker
               selectedValue={this.state.selectedValue}
               onValueChange={this.onValueChange.bind(this)}
-              >
-              { this.state.dataSource.map((item, key)=>(
-                <Item key={key} label={item.name} value={item} />)
-              )}
+            >
+              {this.state.dataSource[0].map((item, key) => (
+                <Item key={key} label={item.symbol} value={item} />
+              ))}
             </Picker>
           </Form>
           <Card>
-            <CardItem style={styles.h1}> 
-              <Text style={styles.textH1}>{ this.state.coin_name }</Text>
+            <CardItem style={styles.h1}>
+              <Text style={styles.textH1}>{this.state.coin_name}</Text>
             </CardItem>
-            <CardItem style={styles.symbol}> 
-              <Text style={styles.textH2}>{ this.state.symbol }</Text>
+            <CardItem style={styles.symbol}>
+              <Text style={styles.textH2}>{this.state.symbol}</Text>
             </CardItem>
             <CardItem>
               <Body style={styles.cardStyle}>
-                <CryptoIcon name={this.state.icon} style={styles.icon} /> 
-                <Text style={styles.price_usd}>{ this.state.price_usd }</Text>
-                <Text style={styles.price_btc}>{ this.state.price_btc }</Text>
+                <CryptoIcon name={this.state.icon} style={styles.icon} />
+                <Text style={styles.price_usd}>{this.state.price_usd}</Text>
+                <Text style={styles.price_btc}>{this.state.price_btc}</Text>
               </Body>
             </CardItem>
           </Card>
           <Card>
             <CardItem>
               <Body style={styles.cardStyle}>
-              <TextInput
-                style={{height: 50, width: 100}}
-                keyboardType='numeric'
-                placeholder="$"
-                onChangeText={(text) => this.setState({text})}
-                value={this.state.text}
-              />
-              <Content>
-                <Button dark onPress={this.calculateCurrency.bind(this)}
-                  style={{backgroundColor: '#FF9900'}}>
-                  <Text style={{color: 'white'}}>
-                  Calcular
-                  </Text>
-                </Button>
-              </Content>  
-                <Text style={styles.price_usd}>{ this.state.calcUSD }</Text>
-                <Text style={styles.price_btc}>{ this.state.calcBTC }</Text>
+                <TextInput
+                  style={{ height: 50, width: 100 }}
+                  keyboardType="numeric"
+                  placeholder="$"
+                  onChangeText={(text) => this.setState({ text })}
+                  value={this.state.text}
+                />
+                <Content>
+                  <Button
+                    dark
+                    onPress={this.calculateCurrency.bind(this)}
+                    style={{ backgroundColor: "#FF9900" }}
+                  >
+                    <Text style={{ color: "white" }}>Calcular</Text>
+                  </Button>
+                </Content>
+                <Text style={styles.price_usd}>{this.state.calcUSD}</Text>
+                <Text style={styles.price_btc}>{this.state.calcBTC}</Text>
               </Body>
             </CardItem>
           </Card>
