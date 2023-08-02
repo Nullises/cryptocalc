@@ -16,26 +16,29 @@ export default class CardExample extends Component {
   }
 
   componentDidMount(){
-      return fetch(`https://api.coinmarketcap.com/v1/ticker/`)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        // console.log(responseJson);
-        this.setState({
-            isLoading: false,
-            dataSource: responseJson,
-        }, function() {
-           console.log(this.state.dataSource);
-           this.setState({
-            coin_name: this.state.dataSource[0].name, 
-            symbol: this.state.dataSource[0].symbol,
-            price_usd: `Precio: ${this.state.dataSource[0].price_usd} $`,
-            price_usd_pure: this.state.dataSource[0].price_usd,
-            price_btc: `${this.state.dataSource[0].symbol}/BTC: ${this.state.dataSource[0].price_btc} BTC`,
-            price_btc_one: this.state.dataSource[0].price_usd,
-            icon: this.state.dataSource[0].symbol.toLowerCase(),
-           })
-        })
-      });
+      return fetch(`https://data.binance.com/api/v3/ticker/24hr`)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          // console.log(responseJson);
+          this.setState(
+            {
+              isLoading: false,
+              dataSource: responseJson,
+            },
+            function () {
+              console.log(this.state.dataSource);
+              this.setState({
+                coin_name: this.state.dataSource[0].symbol,
+                symbol: this.state.dataSource[0].symbol,
+                price_usd: `Precio: ${this.state.dataSource[0].lastPrice} $`,
+                price_usd_pure: this.state.dataSource[0].lastPrice,
+                price_btc: `${this.state.dataSource[0].symbol}: ${this.state.dataSource[0].lastPrice} BTC`,
+                price_btc_one: this.state.dataSource[0].lastPrice,
+                icon: this.state.dataSource[0].symbol.toLowerCase(),
+              });
+            }
+          );
+        });
   }
 
   onValueChange(itemValue, itemIndex){
