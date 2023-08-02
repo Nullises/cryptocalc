@@ -61,6 +61,7 @@ export default class CardExample extends Component {
   }
 
   onValueChange(itemValue, itemIndex) {
+    console.log("itemValue", itemValue);
     this.setState({
       selectedValue: itemValue,
       coin_name: itemValue.name,
