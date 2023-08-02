@@ -28,13 +28,13 @@ export default class CardExample extends Component {
             function () {
               console.log(this.state.dataSource);
               this.setState({
-                coin_name: this.state.dataSource.symbol,
-                symbol: this.state.dataSource.symbol,
-                price_usd: `Precio: ${this.state.dataSource.lastPrice} $`,
-                price_usd_pure: this.state.dataSource.lastPrice,
-                price_btc: `${this.state.dataSource.symbol}: ${this.state.dataSource[0].lastPrice} BTC`,
-                price_btc_one: this.state.dataSource.lastPrice,
-                icon: this.state.dataSource.symbol.toLowerCase(),
+                coin_name: this.state.dataSource[0].symbol,
+                symbol: this.state.dataSource[0].symbol,
+                price_usd: `Precio: ${this.state.dataSource[0].lastPrice} $`,
+                price_usd_pure: this.state.dataSource[0].lastPrice,
+                price_btc: `${this.state.dataSource[11].symbol}: ${this.state.dataSource[11].lastPrice}`,
+                price_btc_one: this.state.dataSource[11].lastPrice,
+                icon: this.state.dataSource[0].symbol.toLowerCase(),
               });
             }
           );
@@ -44,14 +44,14 @@ export default class CardExample extends Component {
   onValueChange(itemValue, itemIndex){
     this.setState({
       selectedValue: itemValue,
-      coin_name: itemValue.name, 
+      coin_name: itemValue.symbol,
       symbol: itemValue.symbol,
-      price_usd: `Precio: ${itemValue.price_usd} $`,
-      price_usd_pure: itemValue.price_usd,
-      price_btc: `${itemValue.symbol}/BTC: ${itemValue.price_btc} BTC`,
-      price_btc_one: this.state.dataSource[0].price_usd,
+      price_usd: `Precio: ${itemValue.lastPrice} $`,
+      price_usd_pure: itemValue.lastPrice,
+      price_btc: `${itemValue.symbol}: ${itemValue.lastPrice}`,
+      price_btc_one: this.state.dataSource[11].lastPrice,
       icon: itemValue.symbol.toLowerCase(),
-    })
+    });
   }
 
   calculateCurrency(){
