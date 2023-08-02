@@ -61,13 +61,13 @@ export default class CardExample extends Component {
 
   onChange(itemValue, itemIndex) {
     this.setState({
-      selectedValue: itemValue.value,
-      coin_name: itemValue.value.symbol,
-      symbol: itemValue.value.symbol,
-      price_usd: `Precio: ${itemValue.value.lastPrice} ${
-        itemValue.value.symbol.includes("USDT") ? `$USD` : `BTC`
+      selectedValue: itemValue,
+      coin_name: itemValue.symbol,
+      symbol: itemValue.symbol,
+      price_usd: `Precio: ${itemValue.lastPrice} ${
+        itemValue.symbol.includes("USDT") ? `$USD` : `BTC`
       }`,
-      icon: itemValue.value.symbol.toLowerCase(),
+      icon: itemValue.symbol.toLowerCase(),
     });
   }
 
