@@ -37,18 +37,7 @@ export default class CardExample extends Component {
   }
 
   componentDidMount() {
-
-    
-
-    const headers = {
-      "X-CMC_PRO_API_KEY": "e3b06f2f-2683-4fa0-b69e-89812eaede07",
-    };
-    return fetch(
-      `https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/new`,
-      {
-        headers: headers,
-      }
-    )
+    return fetch("https://data.binance.com/api/v3/ticker/24hr")
       .then((response) => response.json())
       .then((responseJson) => {
         // console.log(responseJson);
@@ -60,12 +49,9 @@ export default class CardExample extends Component {
           function () {
             console.log(this.state.dataSource);
             this.setState({
-              coin_name: this.state.dataSource[0].name,
+              coin_name: this.state.dataSource[0].symbol,
               symbol: this.state.dataSource[0].symbol,
-              price_usd: `Precio: ${this.state.dataSource[0].quote.USD.price} $`,
-              price_usd_pure: this.state.dataSource[0].quote.USD.price,
-              price_btc: `${this.state.dataSource[0].symbol}/BTC: ${this.state.dataSource[0].quote.BTC.price} BTC`,
-              price_btc_one: this.state.dataSource[0].quote.USD.price,
+              price: this.state.dataSource[0].lastPrice,
               icon: this.state.dataSource[0].symbol.toLowerCase(),
             });
           }
@@ -73,29 +59,31 @@ export default class CardExample extends Component {
       });
   }
 
-  onValueChange(itemValue, itemIndex) {
+  onChange(itemValue, itemIndex) {
     this.setState({
-      selectedValue: itemValue,
-      coin_name: itemValue.name,
-      symbol: itemValue.symbol,
-      price_usd: `Precio: ${itemValue.quote.USD.price} $`,
-      price_usd_pure: itemValue.quote.USD.price,
-      price_btc: `${itemValue.symbol}/BTC: ${itemValue.quote.BTC.price} BTC`,
-      price_btc_one: this.state.dataSource[0].quote.USD.price,
-      icon: itemValue.symbol.toLowerCase(),
+      selectedValue: itemValue.value,
+      coin_name: itemValue.value.symbol,
+      symbol: itemValue.value.symbol,
+      price_usd: `Precio: ${itemValue.value.lastPrice} ${
+        itemValue.value.symbol.includes("USDT") ? `$USD` : `BTC`
+      }`,
+      icon: itemValue.value.symbol.toLowerCase(),
     });
   }
 
   calculateCurrency() {
     let floatInput = parseFloat(this.state.text);
-    let floatCurrency = parseFloat(this.state.price_usd_pure);
-    let floatBTC = parseFloat(this.state.price_btc_one);
-    let calcUSD = floatInput / floatCurrency;
-    let calcBTC = floatInput / floatBTC;
-    console.log("calc", calcUSD);
-    console.log("calc BTC", calcBTC);
+    let floatPrice = parseFloat(this.state.price);
+    let calcPrice = floatInput / floatPrice;
+    let calcUSD = 0;
+    let calcBTC = 0;
+    if (this.state.coin_name.includes("USDT")) {
+      calcUSD = calcPrice;
+    } else {
+      calcBTC = calcPrice;
+    }
     this.setState({
-      calcUSD: `Total: ${calcUSD.toFixed(8)} ${this.state.symbol}`,
+      calcUSD: `Total: ${calcUSD.toFixed(8)} $USD`,
       calcBTC: `Total en Bitcoins: ${calcBTC.toFixed(8)} BTC`,
     });
   }
