@@ -65,8 +65,8 @@ export default class CardExample extends Component {
       selectedValue: itemValue,
       coin_name: itemValue.name,
       symbol: itemValue.symbol,
-      price_usd: `Precio: ${itemValue.price_usd} $`,
-      price_usd_pure: itemValue.price_usd,
+      price_usd: `Precio: ${itemValue.priceUsd} $`,
+      price_usd_pure: itemValue.priceUsd,
       icon: itemValue.symbol.toLowerCase(),
     });
   }
