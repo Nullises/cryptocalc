@@ -25,6 +25,7 @@ export default class CardExample extends Component {
     this.state = {
       isLoading: true,
       dataSource: [],
+      text: "",
     };
   }
 
@@ -66,7 +67,7 @@ export default class CardExample extends Component {
   }
 
   calculateCurrency(){
-    let floatInput = parseFloat(this.state.selectedValue);
+    let floatInput = parseFloat(this.state.text);
     let floatCurrency = parseFloat(this.state.price_usd_pure);
     let floatBTC = parseFloat(this.state.price_btc_one)
     let calcUSD = floatInput / floatCurrency;
