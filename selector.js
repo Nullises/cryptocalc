@@ -60,10 +60,7 @@ export default class CardExample extends Component {
       });
   }
 
-  onChange(itemValue) {
-    for (let key in itemValue) {
-      console.log(key + ":", itemValue[key]);
-    }
+  onValueChange(itemValue) {
     console.log("itemValue", itemValue);
     this.setState({
       selectedValue: itemValue,
@@ -92,9 +89,7 @@ export default class CardExample extends Component {
           <Form>
             <Picker
               selectedValue={this.state.selectedValue}
-              onValueChange={(itemValue) => {
-                this.onChange(itemValue);
-              }}
+              onValueChange={this.onValueChange}
             >
               {this.state.dataSource.map((item, key) => (
                 <Item key={key} label={item.name} value={item} />
