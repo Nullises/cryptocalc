@@ -28,13 +28,13 @@ export default class CardExample extends Component {
             function () {
               console.log(this.state.dataSource);
               this.setState({
-                coin_name: this.state.dataSource[0].symbol,
-                symbol: this.state.dataSource[0].symbol,
-                price_usd: `Precio: ${this.state.dataSource[0].lastPrice} $`,
-                price_usd_pure: this.state.dataSource[0].lastPrice,
-                price_btc: `${this.state.dataSource[0].symbol}: ${this.state.dataSource[0].lastPrice} BTC`,
-                price_btc_one: this.state.dataSource[0].lastPrice,
-                icon: this.state.dataSource[0].symbol.toLowerCase(),
+                coin_name: this.state.dataSource.symbol,
+                symbol: this.state.dataSource.symbol,
+                price_usd: `Precio: ${this.state.dataSource.lastPrice} $`,
+                price_usd_pure: this.state.dataSource.lastPrice,
+                price_btc: `${this.state.dataSource.symbol}: ${this.state.dataSource[0].lastPrice} BTC`,
+                price_btc_one: this.state.dataSource.lastPrice,
+                icon: this.state.dataSource.symbol.toLowerCase(),
               });
             }
           );
