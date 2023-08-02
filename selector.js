@@ -60,8 +60,8 @@ export default class CardExample extends Component {
       });
   }
 
-  onValueChange(itemValue, itemIndex) {
-    console.log("itemValue", JSON.stringify(itemValue));
+  onChange(itemValue) {
+    console.log("itemValue", itemValue);
     this.setState({
       selectedValue: itemValue,
       coin_name: itemValue.name,
@@ -89,7 +89,9 @@ export default class CardExample extends Component {
           <Form>
             <Picker
               selectedValue={this.state.selectedValue}
-              onValueChange={this.onValueChange.bind(this)}
+              onValueChange={(itemValue) => {
+                this.onChange(itemValue);
+              }}
             >
               {this.state.dataSource.map((item, key) => (
                 <Item key={key} label={item.name} value={item} />
